@@ -1,0 +1,349 @@
+
+	Linked List Report
+	
+////////////////// List Implementation ///////////////////////
+	
+	- The linked list I implemented for this project consists of nodes.
+		- This node contains two strings, for the first and last names, and a template for a value called InfoType.
+		- It also contains pointers to the previous and the next nodes.
+	- The empty list contains a pointer to a head set equal to nullptr when the list is initialized.
+		- When the head's value is set, the pointer to its previous node is set to itself and the pointer to the next node is set to nullptr.
+		- The head will always be connected to the last node of the list via its previous node to make the list circular.
+			- The list was made circular in an attempt to reduce the number of steps needed to access the last node on the list.
+		- The pointer to the next node of the last node on the list will always be nullptr to indicate the end of the list.
+			- This seemed to be a cleaner option than using a dummy node or a tail in terms of code readability and simplicity while not losing any function.
+			
+		- Empty List
+	.......   Head = nullptr;   ........
+	
+	
+		- Typical List
+	.......     LastNode          ............      Head        ...............       Node1        .................
+           m_firstname = "Carey";             m_firstname = "David";             m_firstname = "Solomon";
+		   m_lastname = "Nachenberg";         m_lastname = "Smallberg";          m_lastname = "Russell";
+		   m_value = "1";                     m_value = "2";                     m_value = "3";
+		   Node *next = nullptr;              Node *next = Node1;                Node *next = LastNode;
+		   Node *prev = Node1;				  Node *prev = LastNode;             Node *prev = Node1;
+		   
+
+		   
+//////////////////// Notable Obstacles /////////////////////////
+	
+	- 1. When adding or deleting nodes from the list there were special cases to consider:
+		- When the node added or removed was the head node.
+		- When the node added or removed was the last node.
+			- These nodes needed to be labeled and linked correctly in order to preserve the logic of the list.
+			- This would have been even more compicated had there been a dummy node or a tail pointer.
+				- For this reason, the list was made circular only via the head's previous pointer linking to the last node of the list.
+				
+	- 2. Anti-aliasing was also an issue:
+		- This was needed for the assignment operator, the combine function, and the search function.
+			- The problem was that code was being repeated with different variables due to the many different cases.
+			- The assignment operator and the search function only handled two objects and was rather simple to avoid duplicating code.
+				- The code for the search function was written to use the assignment operator to the result arrays and then remove values.
+				- There was a problem with the for loop skipping values after removing an element.
+					- Solved by looping the loop until the result was the right size, which is found beforehand.
+			- The combine function had to account for three objects and was a bit more difficult to avoid duplicating code.
+							
+				
+			
+//////////////////// Pseudocode /////////////////////////
+	
+		// add
+	bool add(const std::string& firstName, const std::string& lastName, const InfoType& value) {
+		if (list contain full name) {
+			return false;
+		}
+		if (list is empty) {                    
+			add new node and set to head;
+			return true;
+		}
+		
+		Node *p = head;
+		if (list contains full name)) {     
+			iterate to last name;                        
+			then iterate to first name;       
+		}
+		else {
+			iterate to node past where it should be alphabetically;
+		}
+		
+		Add new node and set values;
+		if (if end of list) {                     
+			link to head;              
+			return true;
+		}
+
+		link to next and prev;                
+		if (if front of list) {                     
+			set to head;                   
+			return true;                    
+		}
+
+		link previous node to new node;            
+		return true;                   
+	}
+	
+		// remove
+	bool remove(const std::string& firstName, cont std::string& lastName) {
+		if (contains == false or empty == true) {
+			return false;
+		}
+		
+		iterate to node to be removed;
+			check if node to be removed is the head and is the only node;
+				delete node;
+				set head to nullptr;
+				return true;
+			check if node to be removed is the head and is not the only node;
+				keep circular link;
+				delete node;
+				return true;
+			check if node to be removed is the last node;
+				keep circular link;
+				delete node;
+				return true;
+			general case;
+				link to previous and next nodes;
+				delete node;
+				return true;
+	}
+	
+		// combine
+	bool combine(const PeopleList& m1, const PeopleList& m2, PeopleList& result) {
+		check if m1 = m2;
+		check if m1 = m2 = result;
+		check if m2 = result;
+		check if m1 = result;
+		
+		bool duplicateMismatch = true;
+		for (int i = 0; i < size(); i++) {
+			get values from tartget list;
+			if (result contains item == false) {
+				add to results
+			}
+			else {
+				lookup result value;
+				if (value == result value) {
+					do nothing;
+				} else {
+					remove from result;
+					duplicateMismatch = false;
+				}
+			}
+		}
+	}
+	
+		// psearch
+	void psearch (const std::string& fsearch, const std::string& lsearch, const PeopleList& p1, PeopleList& result) {
+		check if p1 = result;
+		
+		if (fsearch == "*" && lsearch == "*")       // each case will use same code with different objects
+		if (fsearch != "*" && lsearch != "*")
+		if (fsearch == "*" && lsearch != "*")
+		if (fsearch != "*" && lsearch == "*")
+		
+		find out how many elements result should have;       // account for anti-aliasing problems
+		while (result size is > count) {
+			for (int i = 0; i < size(); i++) {
+				search and remove;
+			}
+		}
+	}
+	
+
+	
+///////////////////////// Test Cases ////////////////////
+	
+	int main() {
+	PeopleList test;    // default constructor
+
+	if (test.empty()) {             // empty list
+		cout << test.size() << endl;    // size
+	}
+	
+	string first;
+	string last;
+	InfoType value;
+
+	test.add("", "", "");   // adding an item of empty string to an empty list
+	test.get(0, first, last, value);    // first item values
+	if (first == "" && last == "" && value == "") {
+		cout << test.size() << endl;     // should print 1
+	}
+
+	test.add("carey", "nachenberg", "professor");
+	cout << test.size() << endl;
+	value = "retired";
+	if (test.contains("carey", "nachenberg")) {           // contains
+		cout << "contains" << endl;
+		test.change("carey", "nachenberg", value);    // change
+	}
+	test.get(1, first, last, value);
+	cout << value << endl;
+
+	test.addOrChange("david", "smallberg", "professor");   // add or change
+	test.addOrChange("david", "smallberg", "professor");   // add duplicate
+	test.addOrChange("david", "smallberg", "promoted");    // add or change existing value
+	test.lookup("david", "smallberg", value);
+	if (value == "promoted") {
+		test.remove("", "");            // remove
+		cout << test.size() << endl;           // should print 2
+	}
+	test.get(0, first, last, value);
+	cout << first << ", " << last << " - " << value << endl; // carey, nachenberg - retired
+
+	// testCopy
+	// carey, nachenberg, retired
+	// david, smallberg, promoted
+
+	PeopleList testCopy(test);                // copy constructor
+	for (int i = 0; i < testCopy.size(); i++) {
+		testCopy.get(i, first, last, value);
+		cout << first << ", " << last << " - " << value << endl;
+	}
+
+	test.remove("carey", "nachenberg");            // test remove
+	test.remove("david", "smallberg");
+	cout << test.size() << endl;     // should print 0;
+
+	test.add("assee", "mcgee", "adultswim");
+	test.add("robot", "chicken", "adultswim");
+	test.add("aquateen", "hungerforce", "adultswim");
+	test.add("harvey", "birdman", "adultswim");
+	test.add("carey", "nachenberg", "laidoff");
+	test.add("david", "smallberg", "promoted");
+
+	for (int i = 0; i < test.size(); i++) {    // testing alphabetical arrangement
+		test.get(i, first, last, value);
+		cout << last << ", ";     // birdman, chicken, hungerforce, mcgee, nachenberg, smallberg 
+	}
+	cout << endl;
+
+	testCopy = test;       // assignment operator
+	cout << testCopy.size() << endl;    // should print 6
+
+	test.change("assee", "mcgee", "cancelled");
+	test.change("harvey", "birdman", "finished");         // change
+	test.change("carey", "nachenberg", "rehired");
+	test.add("ricky", "morty", "newseason");
+	cout << endl;
+
+	for (int i = 0; i < test.size(); i++) {    
+		test.get(i, first, last, value);
+		cout << first << ", " << last << " - " << value << endl;
+	}
+	cout << endl; 
+
+	for (int i = 0; i < testCopy.size(); i++) {    
+		testCopy.get(i, first, last, value);
+		cout << first << ", " << last << " - " << value << endl;
+	}
+	cout << endl;
+
+	// testCopy
+	// assee, mcgee, adultswim
+	// robot, chicken, adultswim
+	// aquateen, hungerforce, adultswim
+	// harvey, birdman, adultswim
+	// carey, nachenberg, laidoff
+	// david, smallberg, promoted
+
+	// test
+	// assee, mcgee, cancelled
+	// robot, chicken, adultswim
+	// aquateen, hungerforce, adultswim
+	// harvey, birdman, finished
+	// carey, nachenberg, rehired
+	// david, smallberg, promoted
+	// ricky, morty, newseason
+
+	// combine
+	// robot, chicken, adultswim
+	// aquateen, hungerforce, adultswim
+	// david, smallberg, promoted
+	// ricky, morty, newseason
+
+	PeopleList result;
+	combine(test, testCopy, result);             // combine
+	for (int i = 0; i < result.size(); i++) {
+		result.get(i, first, last, value);
+		cout << first << ", " << last << " - " << value << endl;
+	}
+	// result should be combine
+	cout << endl;
+
+	PeopleList test1(test);
+	combine(test1, testCopy, test1);             // test for aliasing
+	for (int i = 0; i < test1.size(); i++) {
+		test1.get(i, first, last, value);
+		cout << first << ", " << last << " - " << value << endl;
+	}
+	// result should be combine
+	cout << endl;
+
+	PeopleList testCopy1(testCopy);
+	combine(testCopy1, testCopy1, result);             // more aliasing
+	for (int i = 0; i < result.size(); i++) {
+		result.get(i, first, last, value);
+		cout << first << ", " << last << " - " << value << endl;
+	}
+	// result should be testCopy
+	cout << endl;
+
+	PeopleList test2(test);
+	combine(test2, test2, test2);             // even more aliasing...
+	for (int i = 0; i < test2.size(); i++) {
+		test2.get(i, first, last, value);
+		cout << first << ", " << last << " - " << value << endl;
+	}
+	// result should be test
+	cout << endl;
+
+	// test
+	// assee, mcgee, cancelled
+	// robot, chicken, adultswim
+	// aquateen, hungerforce, adultswim
+	// harvey, birdman, finished
+	// carey, nachenberg, rehired
+	// david, smallberg, promoted
+	// ricky, morty, newseason
+	// robot, birdman, hybrid
+	// aquateen, smallberg, hybrid
+
+	PeopleList result1;
+
+	test.add("robot", "birdman", "hybrid");
+	test.add("aquateen", "smallberg", "hybrid");
+
+	// psearch
+	psearch("*", "*", test, result1);   // result1 should = test
+	for (int i = 0; i < result1.size(); i++) {
+		result1.get(i, first, last, value);
+		cout << first << ", " << last << " - " << value << endl;
+	}
+	cout << endl;
+
+	psearch("robot", "*", test, result1);  // result1 should have robot first names
+	for (int i = 0; i < result1.size(); i++) {
+		result1.get(i, first, last, value);
+		cout << first << ", " << last << " - " << value << endl;
+	}
+	cout << endl;
+
+	psearch("*", "smallberg", test, result1);   // result1 should have smallberg last name
+	for (int i = 0; i < result1.size(); i++) {   
+		result1.get(i, first, last, value);
+		cout << first << ", " << last << " - " << value << endl;
+	}
+	cout << endl;
+
+	psearch("harvey", "birdman", test, test);  // test should have harvery birdman
+	for (int i = 0; i < test.size(); i++) {
+		test.get(i, first, last, value);
+		cout << first << ", " << last << " - " << value << endl;
+	}
+	cout << endl;
+
+	cin.ignore(10000, '\n');
+}
