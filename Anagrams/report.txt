@@ -1,0 +1,24 @@
+
+1.a. I was not able to overcome one obstacle of accounting for the base case when either the dict array or the results array ran out of space.
+	- I could not figure out how to go about this recursively because dict.size() nor results.size() was an option.
+	- I was forced to leave it blank and hope that this base case would never be reached.
+
+  b. There was another problem with checking for duplicate words that would have been added into the results arry twice due to words being case sensitive.
+	- I used a helper function to compare words letter by letter in the upper case by using the toupper function.
+
+  c. General problems arised due to the restrictions in parameters. 
+	- For the recursivePermute function, I had to use a helper function and run that function with a variable outside its scope so that it could be used as an index.
+	- There may have been a way to go about this problem recursively but I was not able to figure it out.
+  d. Creating variables on the stack for recursive function depleted the memory space on the readDictionary function.
+	- I should use them sparingly.
+  e. Tried to implement a binary seach to make the search faster.
+	- But that was the least of my problems.
+
+2.a. pass in a words.txt that exceeds MAXDICTWORDS.
+  b. pass in an anagram that exceeds MAXRESULTS.
+  C. Pass in an anagram with upper case letter.
+  d. pass in an anagram with no matching words.
+
+
+
+*** DID NOT FINISH PROJECT ***
